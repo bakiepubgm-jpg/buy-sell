@@ -4,6 +4,11 @@ from datetime import datetime, time, timedelta
 import pytz
 import pandas as pd
 
+from streamlit_autorefresh import st_autorefresh
+
+# Auto-refresh every 15 seconds
+count = st_autorefresh(interval=120 * 1000, limit=None, key="gold_autorefresh")
+
 # -------------------------------
 # App Config
 # -------------------------------
