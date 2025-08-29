@@ -195,7 +195,7 @@ col1.markdown(
         Current XAU/USD: ${price:.2f}
     </div>
     <div style="
-        font-size:14px; 
+        font-size:13px; 
         font-style: italic; 
         font-weight: 600;
         color: #007ACC;  
@@ -313,6 +313,7 @@ if st.button("🔍 Analyze"):
             st.dataframe(df, use_container_width=True)
 
 footer()
+
 
 
 
