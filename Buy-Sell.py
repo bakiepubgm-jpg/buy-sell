@@ -43,7 +43,9 @@ def footer():
 # -------------------------------
 # GoldAPI Key & Headers
 # -------------------------------
-GOLD_API_KEY = "goldapi-aled0dsmewedm0p-io"  # replace with your key if needed
+#GOLD_API_KEY = "goldapi-aled0dsmewedm0p-io"  # replace with your key if needed
+
+GOLD_API_KEY = "goldapi-4v83y3smewtuogz-io"  # replace with your key if needed
 HEADERS = {
     "x-access-token": GOLD_API_KEY,
     "Content-Type": "application/json"
@@ -311,6 +313,7 @@ if st.button("🔍 Analyze"):
             st.dataframe(df, use_container_width=True)
 
 footer()
+
 
 
 
