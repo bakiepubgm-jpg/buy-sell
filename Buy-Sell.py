@@ -260,7 +260,7 @@ else:
     ll = st.number_input("Lower Low (LL)", value=0.0, format="%.2f")
     prev_high = st.number_input("Previous High", value=0.0, format="%.2f")
 
-hl_status = st.selectbox("HL Status", ["swept", "broken"])
+hl_status = st.selectbox("HL Status", ["Buy", "Sell"])
 
 # -------------------------------
 # Calculate Button
@@ -311,3 +311,4 @@ if st.button("🔍 Analyze"):
             st.dataframe(df, use_container_width=True)
 
 footer()
+
