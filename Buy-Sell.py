@@ -47,7 +47,7 @@ HEADERS = {
 # -------------------------------
 # Get Real-Time Gold Price
 # -------------------------------
-@st.cache_data(ttl=60)  # refresh every 60 seconds
+@st.cache_data(ttl=1)  # refresh every 60 seconds
 def get_gold_price():
     url = "https://www.goldapi.io/api/XAU/USD"
     try:
@@ -179,13 +179,35 @@ high_price = gold_data["high"]
 low_price = gold_data["low"]
 open_price = gold_data["open"]
 
-# Display live gold price on top
+# Display live gold price on top with open/high/low as caption below price
 st.subheader("💰 Live Gold Price (XAU/USD)")
-col1, col2, col3, col4 = st.columns(4)
-col1.metric("Price", f"${price:.2f}")
-col2.metric("High", f"${high_price:.2f}")
-col3.metric("Low", f"${low_price:.2f}")
-col4.metric("Open", f"${open_price:.2f}")
+col1, col2, col3, col4 = st.columns([2,1,1,1])
+col1.markdown(
+    f"""
+    <div style="font-size:24px; font-weight:bold; color:#007ACC; margin-bottom:4px;">
+        Current XAU/USD: ${price:.2f}
+    </div>
+    <div style="
+        font-size:14px; 
+        font-style: italic; 
+        font-weight: 600;
+        color: #007ACC;  
+        line-height: 1.1;
+        margin: 0;
+    ">
+        Open: <span style='color:#FF5733;'>${open_price:.2f}</span> &nbsp;&nbsp;&nbsp; 
+        High: <span style='color:#28B463;'>${high_price:.2f}</span> &nbsp;&nbsp;&nbsp; 
+        Low: <span style='color:#C70039;'>${low_price:.2f}</span>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
+
+col2.empty()
+col3.empty()
+col4.empty()
 
 # Current time UTC now
 now_utc = datetime.now(pytz.UTC)
@@ -238,7 +260,7 @@ hl_status = st.selectbox("HL Status", ["swept", "broken"])
 # -------------------------------
 # Calculate Button
 # -------------------------------
-if st.button("🔍 Calculate"):
+if st.button("🔍 Analyze"):
 
     if hl_status == "swept":
         result, error = swept_logic(hh, prev_high, ll)
