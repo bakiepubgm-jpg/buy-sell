@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 from datetime import datetime
+import pandas as pd
 
 # -------------------------------
 # App Config
@@ -20,7 +21,7 @@ HEADERS = {
 # -------------------------------
 # Get Real-Time Gold Price
 # -------------------------------
-@st.cache_data(ttl=300)
+@st.cache_data(ttl=30)
 def get_gold_price():
     url = "https://www.goldapi.io/api/XAU/USD"
     try:
@@ -127,6 +128,10 @@ else:
     prev_high = st.number_input("Previous High", value=0.0, format="%.2f")
 
 hl_status = st.selectbox("HL Status", ["swept", "broken"])
+
+# -------------------------------
+# Calculate Button
+# -------------------------------
 if st.button("🔍 Calculate"):
 
     if hl_status == "swept":
@@ -135,24 +140,39 @@ if st.button("🔍 Calculate"):
             st.error(error)
         else:
             st.success(f"📈 Market Trend: {result['Trend']}")
-            st.markdown(f"**HL/IDM**: `{result['HL/IDM']:.2f}`")
-            st.markdown(f"**Dif2**: `{result['Dif2']:.2f}`")
-            st.subheader("🔽 Buy Zones")
-            for i, val in enumerate(result["Buy Areas"], 1):
-                st.write(f"Buy Area {i}: **{val:.2f}**")
-            st.subheader("🔼 Resistances")
-            for i, val in enumerate(result["Resistances"], 1):
-                st.write(f"Resistance {i}: **{val:.2f}**")
+            data = {
+                "Metric": [
+                    "HL/IDM", "Dif2",
+                    "Buy Area 1", "Buy Area 2", "Buy Area 3",
+                    "Resistance 1", "Resistance 2", "Resistance 3", "Resistance 4"
+                ],
+                "Value": [
+                    f"{result['HL/IDM']:.2f}", f"{result['Dif2']:.2f}",
+                    f"{result['Buy Areas'][0]:.2f}", f"{result['Buy Areas'][1]:.2f}", f"{result['Buy Areas'][2]:.2f}",
+                    f"{result['Resistances'][0]:.2f}", f"{result['Resistances'][1]:.2f}",
+                    f"{result['Resistances'][2]:.2f}", f"{result['Resistances'][3]:.2f}"
+                ]
+            }
+            df = pd.DataFrame(data)
+            st.dataframe(df, use_container_width=True)
+
     else:
         result, error = broken_logic(hh, prev_high, ll)
         if error:
             st.error(error)
         else:
             st.success(f"📉 Market Trend: {result['Trend']}")
-            st.markdown(f"**HL Break Zone**: `{result['HL Break Zone']:.2f}`")
-            st.subheader("🔼 Sell Zones")
-            for i, val in enumerate(result["Sell Areas"], 1):
-                st.write(f"Sell Area {i}: **{val:.2f}**")
-            st.subheader("🔽 Supports")
-            for i, val in enumerate(result["Supports"], 1):
-                st.write(f"Support {i}: **{val:.2f}**")
+            data = {
+                "Metric": [
+                    "HL Break Zone",
+                    "Sell Area 1", "Sell Area 2", "Sell Area 3",
+                    "Support 1", "Support 2", "Support 3"
+                ],
+                "Value": [
+                    f"{result['HL Break Zone']:.2f}",
+                    f"{result['Sell Areas'][0]:.2f}", f"{result['Sell Areas'][1]:.2f}", f"{result['Sell Areas'][2]:.2f}",
+                    f"{result['Supports'][0]:.2f}", f"{result['Supports'][1]:.2f}", f"{result['Supports'][2]:.2f}"
+                ]
+            }
+            df = pd.DataFrame(data)
+            st.dataframe(df, use_container_width=True)
