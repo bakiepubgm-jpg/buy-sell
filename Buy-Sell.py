@@ -267,7 +267,7 @@ hl_status = st.selectbox("HL Status", ["Buy", "Sell"])
 # -------------------------------
 if st.button("🔍 Analyze"):
 
-    if hl_status == "swept":
+    if hl_status == "Buy":
         result, error = swept_logic(hh, prev_high, ll)
         if error:
             st.error(error)
@@ -311,6 +311,7 @@ if st.button("🔍 Analyze"):
             st.dataframe(df, use_container_width=True)
 
 footer()
+
 
 
 
