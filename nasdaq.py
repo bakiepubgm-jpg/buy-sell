@@ -31,22 +31,28 @@ def detect_session():
         return "New York"
 
 
-# ---------- Sidebar Inputs ----------
-st.set_page_config(page_title="USTEC / NAS100 / NASDAQ Buy & Sell Calculator", layout="centered")
+# ---------- Streamlit Config ----------
+st.set_page_config(
+    page_title="USTEC / NAS100 / NASDAQ Buy & Sell Calculator",
+    layout="centered"
+)
+
+# Main title
 st.title("📊 USTEC / NAS100 / NASDAQ")
 st.markdown("<p style='font-size:12px;color:gray;'>Umer Farid</p>", unsafe_allow_html=True)
+
+# Mode selection
 mode = st.radio("Select Mode", ["Buy", "Sell"])
 
-# ✅ Detect session automatically
+# Auto-detect session
 auto_session = detect_session()
-
-# ✅ Pre-select auto_session in dropdown
 session = st.selectbox(
     "Select Session (override if needed)",
     ["Asia", "London", "New York"],
     index=["Asia", "London", "New York"].index(auto_session)
 )
 
+# Inputs
 hh = st.number_input("Enter Higher High (HH)", format="%.2f")
 ll = st.number_input("Enter Lower Low (LL)", format="%.2f")
 
@@ -55,9 +61,7 @@ if mode == "Sell":
     pll = st.number_input("Enter Previous Lower Low (PLL)", format="%.2f")
     rll = st.number_input("Enter Recent Lower Low (RLL)", format="%.2f")
 
-# Notes
 notes = st.text_area("Add Notes (optional)")
-
 
 # ---------- Calculate ----------
 if st.button("Calculate"):
@@ -92,7 +96,7 @@ if st.button("Calculate"):
     # Prepare row for saving
     results_save = {
         "DateTime": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "Session": session,  # ✅ always stored
+        "Session": session,
         "Mode": mode,
         "HH": hh, "LL": ll, "PLL": pll, "RLL": rll,
         "Buy1": buy1, "Buy2": buy2, "Buy3": buy3,
@@ -106,7 +110,6 @@ if st.button("Calculate"):
     df_save.to_csv(csv_file, mode="a", header=False, index=False)
 
     st.success("✅ Data saved successfully!")
-
 
 # ---------- Tabs ----------
 tab1, tab2 = st.tabs(["📊 Results", "📜 History"])
@@ -131,11 +134,10 @@ with tab1:
         st.dataframe(df_display.style.applymap(highlight_rows, subset=["Metric"]),
                      use_container_width=True, height=35 * len(df_display))
 
-
 with tab2:
     try:
         df_hist = pd.read_csv(csv_file, on_bad_lines="skip")
-        df_hist = df_hist.iloc[::-1].reset_index(drop=True)  # latest on top
+        df_hist = df_hist.iloc[::-1].reset_index(drop=True)
 
         if not df_hist.empty:
             def highlight_latest(row):
@@ -145,7 +147,7 @@ with tab2:
                          use_container_width=True,
                          height=(35 * len(df_hist) if len(df_hist) < 30 else 800))
 
-            # -------- Clear History Button --------
+            # Manage History
             with st.expander("🗑️ Manage History"):
                 option = st.radio("Choose an option:", ["Do Nothing", "Clear All", "Delete Specific Row by DateTime"])
 
@@ -169,7 +171,7 @@ with tab2:
     except Exception as e:
         st.error(f"Error reading history: {e}")
 
-# Footer
+# ---------- Footer ----------
 st.markdown(
     """
     <style>
@@ -179,9 +181,11 @@ st.markdown(
         bottom: 0;
         width: 100%;
         text-align: right;
-        padding: 10px;
+        padding: 10px 20px;
         font-size: 12px;
         color: gray;
+        background-color: rgba(255, 255, 255, 0.9);
+        z-index: 9999;
     }
     </style>
     <div class="footer">
@@ -190,7 +194,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-
-
-
