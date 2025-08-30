@@ -169,5 +169,28 @@ with tab2:
     except Exception as e:
         st.error(f"Error reading history: {e}")
 
+# Footer
+st.markdown(
+    """
+    <style>
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        text-align: right;
+        padding: 10px;
+        font-size: 12px;
+        color: gray;
+    }
+    </style>
+    <div class="footer">
+        Served by Umer Farid
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
 
 
