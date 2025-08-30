@@ -34,7 +34,7 @@ def detect_session():
 # ---------- Sidebar Inputs ----------
 st.set_page_config(page_title="USTEC / NAS100 / NASDAQ Buy & Sell Calculator", layout="centered")
 st.title("📊 USTEC / NAS100 / NASDAQ (Umer Farid)")
-
+st.markdown("<p style='font-size:12px;'>Umer Farid</p>", unsafe_allow_html=True)
 mode = st.radio("Select Mode", ["Buy", "Sell"])
 
 # ✅ Detect session automatically
@@ -168,4 +168,5 @@ with tab2:
 
     except Exception as e:
         st.error(f"Error reading history: {e}")
+
 
