@@ -1,4 +1,4 @@
-add footer here import streamlit as st
+import streamlit as st
 import pandas as pd
 import os
 from datetime import datetime
@@ -168,6 +168,7 @@ with tab2:
 
     except Exception as e:
         st.error(f"Error reading history: {e}")
+
 
 
 
