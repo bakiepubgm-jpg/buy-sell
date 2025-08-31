@@ -1,2 +1,3 @@
+--upgrade pip
 streamlit-autorefresh
 MetaTrader5
