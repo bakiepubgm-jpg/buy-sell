@@ -2,10 +2,11 @@ import streamlit as st
 import pandas as pd
 import os
 from datetime import datetime
-
+import pytz
 # CSV file path
 csv_file = "dataset.csv"
 
+karachi_tz = pytz.timezone("Asia/Karachi")
 # Columns for dataset
 columns = [
     "DateTime", "Session", "Mode", "HH", "LL", "PLL", "RLL",
@@ -88,10 +89,10 @@ if st.button("Calculate"):
     else:
         st.warning("⚠️ Invalid inputs. Please check values.")
         st.stop()
-
+        
     # Prepare row for saving
     results_save = {
-        "DateTime": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "DateTime": datetime.now(karachi_tz).strftime("%Y-%m-%d %H:%M:%S %Z"),
         "Session": session,  # ✅ always stored
         "Mode": mode,
         "HH": hh, "LL": ll, "PLL": pll, "RLL": rll,
@@ -168,6 +169,7 @@ with tab2:
 
     except Exception as e:
         st.error(f"Error reading history: {e}")
+
 
 
 
