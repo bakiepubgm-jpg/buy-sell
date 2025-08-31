@@ -1,5 +1,6 @@
-if MT5_AVAILABLE:
-    st.success("✅ Using MetaTrader5 (local mode)")
-    # your MT5 code here
-else:
-    st.warning("⚠️ MT5 not available. Using Yahoo Finance (cloud mode)")
+try:
+    import MetaTrader5 as mt5
+    MT5_AVAILABLE = True
+except ImportError:
+    MT5_AVAILABLE = False
+import yfinance as yf
