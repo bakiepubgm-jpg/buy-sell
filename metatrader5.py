@@ -1,8 +1,13 @@
 import streamlit as st
 import pandas as pd
-import MetaTrader5 as mt5
+#import MetaTrader5 as mt5
 from datetime import datetime
 import pytz
+try:
+    import MetaTrader5 as mt5
+    MT5_AVAILABLE = True
+except ImportError:
+    MT5_AVAILABLE = False
 
 # --- Initialize MT5 ---
 if not mt5.initialize():
@@ -88,3 +93,4 @@ if results:
     st.write("### 📈 Symbol Analysis Results")
     df_results = pd.DataFrame(results).T
     st.dataframe(df_results.style.format("{:.2f}"), use_container_width=True)
+
