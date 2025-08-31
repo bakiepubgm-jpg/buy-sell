@@ -189,11 +189,12 @@ st.markdown(
     }
     </style>
     <div class="footer">
-        Umer Farid reserved
+         © Umer Farid™ All rights reserved
     </div>
     """,
     unsafe_allow_html=True
 )
+
 
 
 
