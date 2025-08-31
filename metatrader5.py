@@ -6,10 +6,11 @@ import pytz
 try:
     import MetaTrader5 as mt5
     MT5_AVAILABLE = True
+    st.write(MT5_AVAILABLE)
   
 except ImportError:
     MT5_AVAILABLE = False
-      st.error("not available")
+      st.error(MT5_AVAILABL)
 
 
 
@@ -97,5 +98,6 @@ if results:
     st.write("### 📈 Symbol Analysis Results")
     df_results = pd.DataFrame(results).T
     st.dataframe(df_results.style.format("{:.2f}"), use_container_width=True)
+
 
 
